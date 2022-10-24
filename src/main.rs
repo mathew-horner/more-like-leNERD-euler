@@ -42,14 +42,14 @@ pub fn even_fibonacci_numbers() -> u64 {
     sum
 }
 
-pub fn quadratic_primes() -> u64 {
+pub fn quadratic_primes() -> i64 {
     // The maximum value of a or b.
-    const COEF_MAX: u64 = 1000;
+    const COEF_MAX: i64 = 1000;
     let mut max = 0;
-    let mut max_pair: Option<(u64, u64)> = None;
+    let mut max_pair: Option<(i64, i64)> = None;
 
-    for a in 0..COEF_MAX {
-        for b in 0..COEF_MAX {
+    for a in (-COEF_MAX + 1)..COEF_MAX {
+        for b in (-COEF_MAX)..(COEF_MAX + 1) {
             let result = max_consecutive_primes_for_quadratic(a as i64, b as i64);
             if result > max {
                 max = result;
@@ -65,7 +65,7 @@ pub fn quadratic_primes() -> u64 {
 fn max_consecutive_primes_for_quadratic(a: i64, b: i64) -> u64 {
     let mut n: u64 = 0;
     loop {
-        if !is_prime((n as i64) ^ 2 + (a * (n as i64)) + b) {
+        if !is_prime((n as i64).pow(2) + (a * (n as i64)) + b) {
             break;
         }
         n += 1;
