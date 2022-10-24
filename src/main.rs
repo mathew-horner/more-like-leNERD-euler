@@ -42,6 +42,8 @@ pub fn even_fibonacci_numbers() -> u64 {
     sum
 }
 
+/// Problem 3 - Find the product of the coefficients `a` and `b` that produce
+/// the longest consecutive sequence of primes.
 pub fn quadratic_primes() -> i64 {
     // The maximum value of a or b.
     const COEF_MAX: i64 = 1000;
@@ -62,6 +64,8 @@ pub fn quadratic_primes() -> i64 {
     max_pair.0 * max_pair.1
 }
 
+/// Count the number of consecutive primes produced by the quadratic expression
+/// `n^2 + a*n + b` for `n = 0..`.
 fn max_consecutive_primes_for_quadratic(a: i64, b: i64) -> u64 {
     let mut n: u64 = 0;
     loop {
@@ -73,6 +77,7 @@ fn max_consecutive_primes_for_quadratic(a: i64, b: i64) -> u64 {
     n
 }
 
+/// Whether `n` is a prime number.
 fn is_prime(n: i64) -> bool {
     if n < 0 {
         return false;
@@ -80,6 +85,7 @@ fn is_prime(n: i64) -> bool {
     factors(n as u64).len() <= 2
 }
 
+/// Calculate the factors of `n`.
 fn factors(n: u64) -> HashSet<u64> {
     let mut factors = HashSet::new();
     factors.insert(1);
