@@ -1,9 +1,7 @@
 use std::collections::HashSet;
 use std::{env, process};
 
-use crate::big_num::BigNum;
-
-mod big_num;
+use arbitrary_precision::Integer;
 
 fn main() {
     let args: Vec<_> = env::args().collect();
@@ -90,7 +88,7 @@ pub fn quadratic_primes() -> i64 {
 /// 2 <= a <= 100 and 2 <= b <= 100
 pub fn distinct_powers() -> usize {
     let mut set = HashSet::new();
-    for a in (2..=100).map(BigNum::from) {
+    for a in (2..=100).map(Integer::from) {
         for b in 2_usize..=100 {
             set.insert(a.clone().pow(b));
         }
