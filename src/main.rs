@@ -20,6 +20,11 @@ fn execute(problem_number: usize) {
         2 => println!("{}", even_fibonacci_numbers()),
         3 => println!("{}", quadratic_primes()),
         29 => println!("{}", distinct_powers()),
+        31 => {
+            let mut combos = 0;
+            coin_sums::solve(0, &mut HashSet::new(), &mut combos);
+            println!("{combos}");
+        }
         other => eprintln!("no solution for problem {other}"),
     }
 }
@@ -94,6 +99,49 @@ pub fn distinct_powers() -> usize {
         }
     }
     set.len()
+}
+
+mod coin_sums {
+    use super::*;
+
+    const COINS: [usize; 8] = [1, 2, 5, 10, 20, 50, 100, 200];
+
+    /// Problem 31 - Count number of ways to combine the given coins to equal 2£.
+    pub fn solve(combo: u64, seen: &mut HashSet<u64>, ways: &mut usize) {
+        if seen.contains(&combo) {
+            return;
+        }
+        seen.insert(combo);
+        let pence = pence(combo);
+        if pence == 200 {
+            *ways += 1;
+            return;
+        }
+        if pence > 200 {
+            return;
+        }
+        for idx in 0..COINS.len() {
+            solve(increment_coin(combo, idx), seen, ways);
+        }
+    }
+
+    fn increment_coin(mut combo: u64, coin_idx: usize) -> u64 {
+        let shift = 8 * coin_idx;
+        let mut count = (combo >> shift) & 0xFF;
+        count += 1;
+        combo &= !(0xFF << shift);
+        combo |= count << shift;
+        combo
+    }
+
+    fn pence(mut combo: u64) -> usize {
+        let mut pence = 0;
+        for coin_idx in 0..COINS.len() {
+            pence += (combo & 0xFF) as usize * COINS[coin_idx];
+            combo >>= 8;
+        }
+        pence
+    }
 }
 
 /// Count the number of consecutive primes produced by the quadratic expression
